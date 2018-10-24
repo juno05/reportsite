@@ -1,0 +1,126 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Report Matrix</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    {% if user.is_authenticated %}
+    <div class="row">
+        <div class="col-lg-12">
+            <!--
+            <div class="panel panel-default">
+                <div class="panel-heading">Application Log trend</div>
+                <div class="panel-body">
+                    <canvas id="myChart" width="1024" height="300"></canvas>
+
+                </div>
+            </div>
+            -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Report Matrix - First level</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Responsibility</th>
+                                    <th>Name</th>
+                                    <th>Phone number</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in first %}
+                                <tr>
+                                    <td>{{row.responsibility}}</td>
+                                    <td>{{row.receiver.username}}</td>
+                                    <td>{{row.phone_number}}</td>
+                                    <td>{{row.receiver.email}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Report Matrix - Second level</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Responsibility</th>
+                                    <th>Name</th>
+                                    <th>Phone number</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in second %}
+                                <tr>
+                                    <td>{{row.responsibility}}</td>
+                                    <td>{{row.receiver.username}}</td>
+                                    <td>{{row.phone_number}}</td>
+                                    <td>{{row.receiver.email}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Report Matrix - Final level</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Responsibility</th>
+                                    <th>Name</th>
+                                    <th>Phone number</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for row in final%}
+                                <tr>
+                                    <td>{{row.responsibility}}</td>
+                                    <td>{{row.receiver.username}}</td>
+                                    <td>{{row.phone_number}}</td>
+                                    <td>{{row.receiver.email}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% else %}
+    Login is needed<br>
+    Click <a href="/login">here</a>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/jquery/jquery.datetimepicker.js' %}"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+</script>
+{% endblock %}

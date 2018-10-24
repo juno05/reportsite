@@ -1,0 +1,191 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    {% if user.is_authenticated %}
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-bell fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{incident_count}}</div>
+                            <div>Incidents in 24 hours!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/report/incident">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-mobile fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{app_count}}</div>
+                            <div>App logs in 24 hours!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="report/app">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-laptop fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{application_count}}</div>
+                            <div>Appl. logs in 24 hours!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="report/applicationlog">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-signal fa-4x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{network_count}}</div>
+                            <div>Network logs in 24 hours!</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="report/networklog">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Details</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+            <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-8">
+             <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <i class="fa fa-tasks fa-fw"></i> Latest report
+                  </div>
+                        <!-- /.panel-heading -->
+                 <div class="panel-body">
+                     <table class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Time</th>
+                                <th>Reporter</th>
+                                <th>Remark</th>
+                            </tr>
+                        </thead>
+                            <tr>
+                                {% for row in latest_app %}
+                                <td> app </td>
+                                <td>{{row.created_date}}</td>
+                                <td>{{row.author}}</td>
+                                <td>{{row.remark}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for row in latest_appl %}
+                                <td> application </td>
+                                <td>{{row.created_date}}</td>
+                                <td>{{row.author}}</td>
+                                <td>{{row.remark}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% for row in latest_network %}
+                                <td> network </td>
+                                <td>{{row.created_date}}</td>
+                                <td>{{row.author}}</td>
+                                <td>{{row.remark}}</td>
+                                {% endfor %}
+                            </tr>
+                        <tbody>
+                        </tbody>
+                     </table>
+                 </div>
+                        <!-- /.panel-body -->
+             </div>
+                    <!-- /.panel -->
+                    <!-- /.panel -->
+        </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Incidents in 24 hours
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for row in incident_categroy %}
+                                <div class="list-group-item" >
+                                    {% if row.category__name == 'app' %}
+                                        <i class="fa fa-mobile fa-fw"></i>
+                                    {% elif row.category__name == 'application' %}
+                                        <i class="fa fa-laptop fa-fw"></i>
+                                    {% elif row.category__name == 'network' %}
+                                        <i class="fa fa-signal fa-fw"></i>
+                                    {% endif %}
+                                    {{row.category__name}}
+                                    <span class="pull-right text-muted small"><em>{{row.category__count}}</em>
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="report/incident" class="btn btn-default btn-block">View All Incidents</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+    {% endif %}
+</div>
+{% endblock %}
